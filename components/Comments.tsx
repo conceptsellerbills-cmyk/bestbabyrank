@@ -1,14 +1,11 @@
 "use client"
 import { useState, useEffect } from "react"
-import { createClient } from "@supabase/supabase-js"
 
 const SUPABASE_URL = "https://eplitafudomvkcpipcdw.supabase.co"
 const SUPABASE_KEY = "sb_publishable_SzrE1YcjBm97Lgob97CM3A_e1q711KW"
 const SITE_ID = "bestbabyrank"
-
-function getSupabase() {
-  return createClient(SUPABASE_URL, SUPABASE_KEY)
-}
+const REST = SUPABASE_URL + "/rest/v1/comments"
+const HEADERS = { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" }
 
 interface Comment {
   id: string
@@ -39,13 +36,11 @@ export function Comments({ slug }: { slug: string; title?: string }) {
 
   async function loadComments() {
     try {
-      const { data } = await getSupabase()
-        .from("comments")
-        .select("id, name, body, created_at")
-        .eq("site", SITE_ID)
-        .eq("slug", slug)
-        .order("created_at", { ascending: true })
-      if (data) setComments(data)
+      const r = await fetch(
+        REST + "?site=eq." + SITE_ID + "&slug=eq." + encodeURIComponent(slug) + "&select=id,name,body,created_at&order=created_at.asc",
+        { headers: HEADERS }
+      )
+      if (r.ok) setComments(await r.json())
     } catch {}
   }
 
@@ -56,10 +51,12 @@ export function Comments({ slug }: { slug: string; title?: string }) {
     setError("")
     setSuccess(false)
     try {
-      const { error: err } = await getSupabase()
-        .from("comments")
-        .insert({ site: SITE_ID, slug, name: name.trim(), body: body.trim() })
-      if (err) {
+      const r = await fetch(REST, {
+        method: "POST",
+        headers: { ...HEADERS, "Prefer": "return=minimal" },
+        body: JSON.stringify({ site: SITE_ID, slug, name: name.trim(), body: body.trim() })
+      })
+      if (!r.ok) {
         setError("Failed to post comment. Please try again.")
       } else {
         setSuccess(true)
