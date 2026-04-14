@@ -84,9 +84,13 @@ export default async function ArticlePage({ params }: Props) {
         /* suggested articles (desktop + mobile) */
         .suggested{margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
         .suggested-title{font-size:1rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-        .suggested-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-        .sugg-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color 0.15s,transform 0.15s}
-        .sugg-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+        .suggested-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .sugg-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.15s,transform 0.15s;text-decoration:none}
+        .sugg-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+        .sugg-thumb{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+        .sugg-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.55) 100%)}
+        .sugg-kw{position:relative;z-index:1;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.92);background:rgba(0,0,0,0.28);padding:3px 10px;border-radius:20px;backdrop-filter:blur(4px)}
+        .sugg-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
         .sugg-card h3{font-size:0.875rem;font-weight:600;line-height:1.4;color:var(--text)}
         .sugg-card h3 a:hover{color:var(--accent)}
         .sugg-date{font-size:0.72rem;color:var(--muted)}
@@ -152,12 +156,21 @@ export default async function ArticlePage({ params }: Props) {
             <section className="suggested">
               <p className="suggested-title">Related Articles</p>
               <div className="suggested-grid">
-                {suggested.map((s) => (
-                  <div className="sugg-card" key={s.slug}>
-                    <h3><a href={`/${s.slug}`}>{s.title}</a></h3>
-                    <span className="sugg-date">{s.date}</span>
-                  </div>
-                ))}
+                {suggested.map((s) => {
+                  const hue = s.slug.split('').reduce((h: number, c: string) => (h * 31 + c.charCodeAt(0)) % 360, 0)
+                  const bg = `linear-gradient(135deg,hsl(${hue},45%,14%) 0%,hsl(${(hue+40)%360},55%,26%) 100%)`
+                  return (
+                    <a className="sugg-card" href={`/${s.slug}`} key={s.slug}>
+                      <div className="sugg-thumb" style={{ background: bg }}>
+                        {s.keyword && <span className="sugg-kw">{s.keyword}</span>}
+                      </div>
+                      <div className="sugg-body">
+                        <h3>{s.title}</h3>
+                        <span className="sugg-date">{s.date}</span>
+                      </div>
+                    </a>
+                  )
+                })}
               </div>
             </section>
           )}
