@@ -138,7 +138,7 @@ export default async function ArticlePage({ params }: Props) {
               <a href="/">← Back to all articles</a>
             </footer>
 
-            <Comments title={post.title} />
+            <Comments slug={slug} />
           </article>
 
           {/* Mobile-only: categories */}
