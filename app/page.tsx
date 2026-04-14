@@ -127,6 +127,7 @@ export default function HomePage() {
         .post-card h3 { font-size: 1.02rem; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
         .post-card h3 a:hover { color: var(--accent); }
         .post-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; flex: 1; margin-bottom: 18px; }
+        .post-cover-img{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:16px;display:block;flex-shrink:0}
         .post-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
         .post-date { font-size: 0.72rem; color: var(--muted); }
         .post-link { font-size: 0.82rem; color: var(--accent); font-weight: 600; }
@@ -298,6 +299,7 @@ export default function HomePage() {
             <div className="post-grid">
               {(featured ? recent : posts.slice(0, 6)).map((post) => (
                 <article className="post-card" key={post.slug}>
+                  {post.coverImage && <img src={post.coverImage} alt={post.title} className="post-cover-img" />}
                   <div className="post-card-top">
                     {post.keyword && <span className="post-tag">{post.keyword}</span>}
                     <span className="post-read-time">⏱ 6 min</span>
