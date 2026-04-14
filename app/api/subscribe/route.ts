@@ -1,25 +1,45 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+const AUDIENCE_ID = "b1e4ae83-4fa2-4653-9f13-43a1fc2a70b2";
+const SITE_ID = "bestbabyrank";
+
+export async function POST(req: Request) {
   try {
-    const { email } = await request.json()
-    if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    const { email } = await req.json();
+
+    if (!email || !email.includes("@")) {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
-    const res = await fetch('https://api.resend.com/audiences/b1e4ae83-4fa2-4653-9f13-43a1fc2a70b2/contacts', {
-      method: 'POST',
+
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+    }
+
+    const res = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
+      method: "POST",
       headers: {
-        Authorization: 'Bearer re_LFjSqrdv_HhpWtxL2YE2fcJRwncJQRKSd',
-        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, unsubscribed: false }),
-    })
+      body: JSON.stringify({
+        email,
+        unsubscribed: false,
+        first_name: "",
+        last_name: "",
+        data: { source: SITE_ID },
+      }),
+    });
+
     if (!res.ok) {
-      const err = await res.json()
-      return NextResponse.json({ error: err.message || 'Failed' }, { status: 500 })
+      const err = await res.json();
+      console.error("Resend error:", err);
+      return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });
     }
-    return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
