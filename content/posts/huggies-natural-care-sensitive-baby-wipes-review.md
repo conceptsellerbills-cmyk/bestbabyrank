@@ -13,7 +13,7 @@ When it comes to caring for a newborn's delicate skin, every product you choose 
 
 In this review, we take a close look at the **Huggies Natural Care Sensitive Baby Wipes, Unscented, Hypoallergenic — 6 Flip-Top Packs (288 Wipes Total)** to help you decide if they deserve a place on your changing table.
 
-👉 **[Check price & availability on Amazon](https://amzn.to/480Ip3R)**
+<div style="text-align:center;margin:28px 0"><a href="https://amzn.to/480Ip3R" target="_blank" rel="nofollow sponsored" style="display:inline-block;padding:16px 36px;background:#f97316;color:#fff;font-weight:700;font-size:1.05rem;border-radius:10px;border:2px solid #ea6c0a;box-shadow:0 4px 18px rgba(249,115,22,0.35);letter-spacing:0.01em;text-decoration:none">👉 Check Price &amp; Availability on Amazon</a></div>
 
 ![Huggies Natural Care Sensitive Baby Wipes — 6 Flip-Top Packs Bundle](https://m.media-amazon.com/images/I/81ZQ13SAn1L._AC_SX679_PIbundle-6,TopRight,0,0_SH20_.jpg)
 
@@ -152,7 +152,7 @@ For babies with sensitive skin, the unscented, hypoallergenic formula isn't just
 ✅ Thick, durable, and soft
 ✅ Excellent bulk value at 288 wipes
 
-👉 **[Buy Huggies Natural Care Sensitive Wipes on Amazon — 288 Count](https://amzn.to/480Ip3R)**
+<div style="text-align:center;margin:32px 0"><a href="https://amzn.to/480Ip3R" target="_blank" rel="nofollow sponsored" style="display:inline-block;padding:18px 40px;background:#f97316;color:#fff;font-weight:700;font-size:1.1rem;border-radius:10px;border:2px solid #ea6c0a;box-shadow:0 4px 22px rgba(249,115,22,0.4);letter-spacing:0.01em;text-decoration:none">👉 Buy Huggies Natural Care Sensitive Wipes on Amazon — 288 Count</a></div>
 
 ---
 
