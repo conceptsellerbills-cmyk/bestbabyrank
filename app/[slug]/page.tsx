@@ -98,10 +98,12 @@ export default async function ArticlePage({ params }: Props) {
         .cats-mobile-item:hover{border-color:var(--accent);color:var(--accent)}
         /* sidebar (desktop only) */
         .sidebar{min-width:0}
-        .sidebar-inner{position:sticky;top:80px}
-        .sidebar-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
-        .sidebar-heading{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-        .sidebar-cats a{display:block;padding:8px 10px;border-radius:7px;color:#c8cad8;font-size:0.83rem;transition:background 0.1s,color 0.1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .sidebar-inner{position:sticky;top:80px;max-height:calc(100vh - 96px);display:flex;flex-direction:column}
+        .sidebar-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;min-height:0;flex:1}
+        .sidebar-heading{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;flex-shrink:0}
+        .sidebar-cats{overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.12) transparent}
+        .sidebar-cats::-webkit-scrollbar{width:4px}.sidebar-cats::-webkit-scrollbar-track{background:transparent}.sidebar-cats::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:4px}
+        .sidebar-cats a{display:block;padding:8px 10px;border-radius:7px;color:#c8cad8;font-size:0.83rem;transition:background 0.1s,color 0.1s}
         .sidebar-cats a:hover{background:rgba(255,255,255,0.05);color:var(--accent)}
         /* responsive */
         @media(max-width:960px){
