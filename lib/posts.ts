@@ -11,6 +11,7 @@ export type Post = {
   description: string;
   keyword: string;
   content: string;
+  coverImage?: string;
 };
 
 export function getAllPosts(): Post[] {
@@ -21,6 +22,7 @@ export function getAllPosts(): Post[] {
       const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf8");
       const { data, content } = matter(raw);
       const slug = data.slug || file.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(".md", "");
+      const imgMatch = content.match(/<img[^>]+src="([^"]+)"/);
       return {
         slug,
         title: data.title || slug,
@@ -28,6 +30,7 @@ export function getAllPosts(): Post[] {
         description: data.description || "",
         keyword: data.keyword || "",
         content,
+        coverImage: imgMatch ? imgMatch[1] : undefined,
       };
     })
     .sort((a, b) => (a.date > b.date ? -1 : 1));
