@@ -15,6 +15,8 @@ In this review, we take a close look at the **Huggies Natural Care Sensitive Bab
 
 👉 **[Check price & availability on Amazon](https://amzn.to/480Ip3R)**
 
+![Huggies Natural Care Sensitive Baby Wipes — 6 Flip-Top Packs Bundle](https://m.media-amazon.com/images/I/81ZQ13SAn1L._AC_SX679_PIbundle-6,TopRight,0,0_SH20_.jpg)
+
 ---
 
 ## Why Baby Wipes Matter More Than You Think
@@ -44,6 +46,8 @@ They are:
 - **Clinically proven mild** — tested on real newborn skin in clinical settings
 
 The simplicity of the formula is actually a major selling point. Many premium wipes on the market contain unnecessary additives marketed as beneficial — Huggies Natural Care takes the opposite approach, using as few ingredients as possible.
+
+![Huggies Natural Care Sensitive Wipes — Single Pack](https://m.media-amazon.com/images/I/61E3oxpmbFL._AC_SL1080_.jpg)
 
 ---
 
@@ -129,6 +133,8 @@ The **288-wipe, 6-pack bundle** represents genuine value. Breaking it down:
 - No plastic tub waste — the soft pack format is lighter and easier to store
 
 For families going through 8–12 wipes per day (a realistic number in the newborn stage), a 288-count bundle lasts roughly 3–4 weeks. Buying in bulk like this consistently saves 20–30% versus purchasing single packs.
+
+![Huggies Natural Care Sensitive Wipes — Close-Up Texture](https://m.media-amazon.com/images/I/61EPQ6j0SzL._AC_SL1080_.jpg)
 
 ---
 
