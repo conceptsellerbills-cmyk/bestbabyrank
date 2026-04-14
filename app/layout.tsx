@@ -17,8 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <style>{`
           .site-header{background:#080b14;border-bottom:1px solid rgba(255,255,255,0.07);padding:14px 0;position:sticky;top:0;z-index:100}
           .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:24px}
-          .site-brand{font-size:1.1rem;font-weight:800;color:#fff;text-decoration:none;white-space:nowrap}
+          .site-brand{font-size:1.1rem;font-weight:800;color:#fff;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:9px;transition:color 0.15s}
           .site-brand:hover{color:#4f8bff}
+          .site-logo{flex-shrink:0;display:block}
           .cat-nav{position:relative}
           .cat-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#e2e8f0;font-size:0.875rem;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:background 0.15s,border-color 0.15s}
           .cat-btn:hover,.cat-nav:focus-within .cat-btn{background:rgba(255,255,255,0.1);border-color:#4f8bff;color:#4f8bff}
@@ -33,7 +34,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
         <header className="site-header">
           <div className="header-inner">
-            <a href="/" className="site-brand">{SITE_NAME}</a>
+            <a href="/" className="site-brand">
+              <svg className="site-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4f8bff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="#4f8bff22" stroke="#4f8bff"/>
+              </svg>
+              {SITE_NAME}
+            </a>
             <nav className="cat-nav" tabIndex={0}>
               <button className="cat-btn" aria-haspopup="true">
                 Categories
