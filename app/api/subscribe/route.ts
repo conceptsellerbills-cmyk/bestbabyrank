@@ -24,10 +24,9 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         email,
-        unsubscribed: false,
-        first_name: "",
+        first_name: SITE_ID,
         last_name: "",
-        data: { source: SITE_ID },
+        unsubscribed: false,
       }),
     });
 
