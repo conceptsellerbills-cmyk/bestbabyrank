@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr;gap:48px;padding:56px 0 48px;border-bottom:1px solid rgba(255,255,255,0.07)}
           .footer-col1{}
           .footer-brand{display:flex;align-items:center;gap:10px;font-size:1.05rem;font-weight:800;color:#fff;text-decoration:none;margin-bottom:14px}
+          .footer-brand-icon{font-size:1.3rem;line-height:1}
           .footer-desc{font-size:0.85rem;color:#6b7280;line-height:1.75;margin-bottom:22px;max-width:340px}
           .footer-nl-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;margin-bottom:10px}
           .footer-nl-form{display:flex;gap:8px;flex-wrap:wrap}
@@ -88,7 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Col 1 — Brand + Newsletter */}
               <div className="footer-col1">
                 <a href="/" className="footer-brand">
-                  <span style="font-size:1.3rem">👶</span>
+                  <span className="footer-brand-icon">👶</span>
                   BestBabyRank
                 </a>
                 <p className="footer-desc">Honest, research-backed reviews of the best baby products to help new parents make safe and confident purchasing decisions.</p>
