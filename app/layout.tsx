@@ -29,8 +29,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .cat-nav:hover .cat-dropdown,.cat-nav:focus-within .cat-dropdown{display:block}
           .cat-dropdown a{display:block;padding:9px 14px;border-radius:8px;color:#c8cad8;font-size:0.875rem;text-decoration:none;transition:background 0.1s,color 0.1s;white-space:nowrap}
           .cat-dropdown a:hover{background:rgba(255,255,255,0.06);color:#4f8bff}
-          .site-footer{border-top:1px solid rgba(255,255,255,0.07);padding:24px 0;margin-top:60px}
-          .site-footer p{color:#6b7280;font-size:0.82rem;text-align:center}
+          /* ── Footer ── */
+          .site-footer{background:#0a0910;border-top:1px solid rgba(255,255,255,0.07);margin-top:80px;padding:0}
+          .footer-inner{max-width:1200px;margin:0 auto;padding:0 24px}
+          .footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr;gap:48px;padding:56px 0 48px;border-bottom:1px solid rgba(255,255,255,0.07)}
+          .footer-col1{}
+          .footer-brand{display:flex;align-items:center;gap:10px;font-size:1.05rem;font-weight:800;color:#fff;text-decoration:none;margin-bottom:14px}
+          .footer-desc{font-size:0.85rem;color:#6b7280;line-height:1.75;margin-bottom:22px;max-width:340px}
+          .footer-nl-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;margin-bottom:10px}
+          .footer-nl-form{display:flex;gap:8px;flex-wrap:wrap}
+          .footer-nl-form input{flex:1;min-width:160px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#e4e8f4;font-size:0.85rem;outline:none;transition:border-color 0.15s}
+          .footer-nl-form input::placeholder{color:#4b5563}
+          .footer-nl-form input:focus{border-color:#4f8bff}
+          .footer-nl-form button{background:#4f8bff;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity 0.15s}
+          .footer-nl-form button:hover{opacity:0.85}
+          .footer-col-title{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;margin-bottom:16px}
+          .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+          .footer-links a{font-size:0.875rem;color:#6b7280;text-decoration:none;transition:color 0.15s}
+          .footer-links a:hover{color:#4f8bff}
+          .footer-bottom{padding:20px 0;text-align:center}
+          .footer-copy{font-size:0.8rem;color:#374151}
+          @media(max-width:860px){.footer-grid{grid-template-columns:1fr 1fr;row-gap:36px}}
+          @media(max-width:520px){.footer-grid{grid-template-columns:1fr}}
         `}</style>
         <header className="site-header">
           <div className="header-inner">
@@ -62,8 +82,49 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="container main-content">{children}</main>
         <footer className="site-footer">
-          <div className="container">
-            <p>© {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</p>
+          <div className="footer-inner">
+            <div className="footer-grid">
+
+              {/* Col 1 — Brand + Newsletter */}
+              <div className="footer-col1">
+                <a href="/" className="footer-brand">
+                  <span style="font-size:1.3rem">👶</span>
+                  BestBabyRank
+                </a>
+                <p className="footer-desc">Honest, research-backed reviews of the best baby products to help new parents make safe and confident purchasing decisions.</p>
+                <p className="footer-nl-label">Newsletter</p>
+                <form className="footer-nl-form" action="/api/subscribe" method="POST">
+                  <input type="email" name="email" placeholder="your@email.com" required />
+                  <button type="submit">Subscribe</button>
+                </form>
+              </div>
+
+              {/* Col 2 — Company */}
+              <div>
+                <p className="footer-col-title">Company</p>
+                <ul className="footer-links">
+                  <li><a href="/about">About</a></li>
+                  <li><a href="/contact">Contact</a></li>
+                  <li><a href="/write-for-us">Write for Us</a></li>
+                  <li><a href="/advertise">Advertise</a></li>
+                </ul>
+              </div>
+
+              {/* Col 3 — Legal */}
+              <div>
+                <p className="footer-col-title">Legal</p>
+                <ul className="footer-links">
+                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/cookie-policy">Cookie Policy</a></li>
+                <li><a href="/terms">Terms of Use</a></li>
+                <li><a href="/affiliate-disclosure">Affiliate Disclosure</a></li>
+                </ul>
+              </div>
+
+            </div>
+            <div className="footer-bottom">
+              <p className="footer-copy">© {new Date().getFullYear()} BestBabyRank. All rights reserved.</p>
+            </div>
           </div>
         </footer>
       </body>
