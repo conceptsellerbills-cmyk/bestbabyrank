@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import FooterNewsletter from "../components/FooterNewsletter";
 
 const SITE_NAME = "BestBabyRank";
 
@@ -94,10 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </a>
                 <p className="footer-desc">Honest, research-backed reviews of the best baby products to help new parents make safe and confident purchasing decisions.</p>
                 <p className="footer-nl-label">Newsletter</p>
-                <form className="footer-nl-form" action="/api/subscribe" method="POST">
-                  <input type="email" name="email" placeholder="your@email.com" required />
-                  <button type="submit">Subscribe</button>
-                </form>
+                <FooterNewsletter />
               </div>
 
               {/* Col 2 — Company */}
