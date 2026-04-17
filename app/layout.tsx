@@ -58,6 +58,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .footer-links a:hover{color:#4f8bff}
           .footer-bottom{padding:20px 0;text-align:center}
           .footer-copy{font-size:0.8rem;color:#374151}
+          
+          /* ── Mobile bottom nav ── */
+          .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#0d111c;border-top:1px solid rgba(255,255,255,0.08);padding:8px 0 env(safe-area-inset-bottom,8px)}
+          .mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
+          .mob-nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 12px;color:rgba(255,255,255,0.45);font-size:0.62rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;transition:color 0.15s}
+          .mob-nav-item:hover,.mob-nav-item.active{color:#fff}
+          .mob-nav-icon{font-size:1.2rem;line-height:1}
+          /* ── Hamburger menu (mobile) ── */
+          .ham-btn{display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#e2e8f0;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:1.1rem;line-height:1;margin-left:auto}
+          .mob-drawer{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px)}
+          .mob-drawer-panel{position:absolute;top:0;right:0;bottom:0;width:min(320px,85vw);background:#0d111c;border-left:1px solid rgba(255,255,255,0.08);overflow-y:auto;padding:24px 0}
+          .mob-drawer-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+          .mob-drawer-title{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 20px;margin-bottom:10px;margin-top:16px}
+          .mob-drawer a{display:block;padding:11px 20px;color:rgba(255,255,255,0.75);font-size:0.9rem;text-decoration:none;transition:background 0.12s,color 0.12s}
+          .mob-drawer a:hover{background:rgba(255,255,255,0.05);color:#fff}
+          @media(max-width:768px){
+            .mob-nav{display:block}
+            .ham-btn{display:flex;align-items:center}
+            .cat-nav{display:none}
+            body{padding-bottom:65px}
+          }
           @media(max-width:860px){.footer-grid{grid-template-columns:1fr 1fr;row-gap:36px}}
           @media(max-width:520px){.footer-grid{grid-template-columns:1fr}}
         `}</style>
@@ -87,8 +108,55 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/category/baby-clothing">👕 Baby Clothing</a>
               </div>
             </nav>
+                      <button className="ham-btn" id="ham-btn" aria-label="Menu">☰</button>
           </div>
         </header>
+
+        {/* Mobile drawer */}
+        <div className="mob-drawer" id="mob-drawer">
+          <div className="mob-drawer-panel">
+            <button className="mob-drawer-close" id="mob-drawer-close">✕</button>
+            <p className="mob-drawer-title">Navigation</p>
+            <a href="/">🏠 Home</a>
+            <a href="/all-articles">📄 All Articles</a>
+            <a href="/categories">📂 Categories</a>
+            <p className="mob-drawer-title">Top Categories</p>
+            <a href="/category/ai-writing">✍️ AI Writing</a>
+            <a href="/category/ai-image">🎨 AI Image</a>
+            <a href="/category/ai-coding">💻 AI Coding</a>
+            <a href="/category/chatbots">🤖 AI Chatbots</a>
+            <a href="/category/ai-productivity">⚡ Productivity</a>
+            <a href="/category/ai-seo-tools">🔎 SEO Tools</a>
+            <a href="/category/ai-video">🎥 AI Video</a>
+            <a href="/category/ai-marketing">📈 Marketing</a>
+            <p className="mob-drawer-title">Company</p>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+
+        {/* Mobile bottom nav */}
+        <nav className="mob-nav">
+          <div className="mob-nav-inner">
+            <a href="/" className="mob-nav-item"><span className="mob-nav-icon">🏠</span>Home</a>
+            <a href="/all-articles" className="mob-nav-item"><span className="mob-nav-icon">📄</span>Articles</a>
+            <a href="/categories" className="mob-nav-item"><span className="mob-nav-icon">📂</span>Categories</a>
+            <a href="/about" className="mob-nav-item"><span className="mob-nav-icon">ℹ️</span>About</a>
+          </div>
+        </nav>
+
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            var btn = document.getElementById('ham-btn');
+            var drawer = document.getElementById('mob-drawer');
+            var closeBtn = document.getElementById('mob-drawer-close');
+            if(btn && drawer){
+              btn.addEventListener('click', function(){ drawer.style.display='block'; document.body.style.overflow='hidden'; });
+              closeBtn && closeBtn.addEventListener('click', function(){ drawer.style.display='none'; document.body.style.overflow=''; });
+              drawer.addEventListener('click', function(e){ if(e.target===drawer){ drawer.style.display='none'; document.body.style.overflow=''; } });
+            }
+          })();
+        `}} />
         <main className="container main-content">{children}</main>
         <footer className="site-footer">
           <div className="footer-inner">
