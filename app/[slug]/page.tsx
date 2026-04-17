@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: Props) {
   // Marked with heading IDs for ToC anchor links
   const { Renderer } = await import("marked");
   const renderer = new Renderer();
-  renderer.heading = ({ text, depth }: { text: string; depth: number }) => {
+  renderer.heading = (text: string, depth: number) => {
     const id = text.replace(/[*_`]/g, "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     return `<h${depth} id="${id}">${text}</h${depth}>\n`;
   };
