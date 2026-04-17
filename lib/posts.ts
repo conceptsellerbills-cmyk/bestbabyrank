@@ -12,6 +12,8 @@ export type Post = {
   keyword: string;
   content: string;
   coverImage?: string;
+  category?: string;
+
 };
 
 export function getAllPosts(): Post[] {
@@ -31,6 +33,7 @@ export function getAllPosts(): Post[] {
         keyword: data.keyword || "",
         content,
         coverImage: imgMatch ? imgMatch[1] : undefined,
+        category: data.category || "",
       };
     })
     .sort((a, b) => (a.date > b.date ? -1 : 1));
