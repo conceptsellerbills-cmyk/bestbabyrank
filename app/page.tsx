@@ -10,6 +10,13 @@ export const metadata: Metadata = {
 
 const STARS = (n: number) => "★".repeat(n) + "☆".repeat(5 - n);
 
+
+function isNew(dateStr?: string): boolean {
+  if (!dateStr) return false;
+  const diff = Date.now() - new Date(dateStr).getTime();
+  return diff < 1000 * 60 * 60 * 24 * 30; // 30 days
+}
+
 export default function HomePage() {
   const posts = getAllPosts();
   const featured = posts[0] ?? null;
@@ -132,6 +139,7 @@ export default function HomePage() {
         .post-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
         .post-date { font-size: 0.72rem; color: var(--muted); }
         .post-link { font-size: 0.82rem; color: var(--accent); font-weight: 600; }
+        .post-new-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
 
         /* FAQ */
         .faq-list { display: flex; flex-direction: column; gap: 12px; }
@@ -303,6 +311,7 @@ export default function HomePage() {
                   {post.coverImage && <img src={post.coverImage} alt={post.title} className="post-cover-img" />}
                   <div className="post-card-top">
                     {post.keyword && <span className="post-tag">{post.keyword}</span>}
+                  {isNew(post.date) && <span className="post-new-badge">New</span>}
                     <span className="post-read-time">⏱ 6 min</span>
                   </div>
                   <h3><a href={`/${post.slug}`}>{post.title}</a></h3>
