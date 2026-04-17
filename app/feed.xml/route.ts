@@ -1,4 +1,4 @@
-import { getAllPosts } from "../../../lib/posts";
+import { getAllPosts } from "../../lib/posts";
 import { NextResponse } from "next/server";
 
 const BASE = "https://www.bestbabyrank.com";
