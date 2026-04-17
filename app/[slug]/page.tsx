@@ -42,7 +42,43 @@ export default async function ArticlePage({ params }: Props) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
-  const html = await marked(post.content);
+  // Reading time
+  const wordCount = post.content.split(/\s+/).filter(Boolean).length;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  // Table of Contents — extract ## headings
+  const tocItems: { text: string; id: string }[] = [];
+  const headingRe = /^## (.+)$/gm;
+  let hm: RegExpExecArray | null;
+  while ((hm = headingRe.exec(post.content)) !== null) {
+    const text = hm[1].replace(/[*_`]/g, "").trim();
+    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    tocItems.push({ text, id });
+  }
+
+  // FAQ Schema — extract question headings + following paragraph
+  const questionWords = /^(what|how|why|is|are|can|does|do|which|when|who|should|will)\b/i;
+  const faqItems: { q: string; a: string }[] = [];
+  const sections = post.content.split(/^## /m).slice(1);
+  for (const section of sections) {
+    const lines = section.split("\n");
+    const heading = lines[0]?.replace(/[*_`#]/g, "").trim() || "";
+    if (!heading.endsWith("?") && !questionWords.test(heading)) continue;
+    const body = lines.slice(1).join("\n").trim();
+    const firstPara = body.split(/\n\n/)[0]?.replace(/[*_`#\[\]]/g, "").replace(/!\[.*?\]\(.*?\)/g, "").trim() || "";
+    if (firstPara.length < 20) continue;
+    faqItems.push({ q: heading, a: firstPara.slice(0, 500) });
+    if (faqItems.length >= 6) break;
+  }
+
+  // Marked with heading IDs for ToC anchor links
+  const { Renderer } = await import("marked");
+  const renderer = new Renderer();
+  renderer.heading = ({ text, depth }: { text: string; depth: number }) => {
+    const id = text.replace(/[*_`]/g, "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return `<h${depth} id="${id}">${text}</h${depth}>\n`;
+  };
+  const html = await marked(post.content, { renderer });
   const allOther = getAllPosts().filter((p) => p.slug !== slug);
   const sameCat = allOther.filter((p) => post.category && p.category === post.category);
   const others  = allOther.filter((p) => !post.category || p.category !== post.category);
@@ -66,6 +102,16 @@ export default async function ArticlePage({ params }: Props) {
     },
     keywords: post.keyword || "",
   });
+  const faqSchema = faqItems.length >= 2 ? JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  }) : null;
+
   const breadcrumbSchema = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -100,6 +146,12 @@ export default async function ArticlePage({ params }: Props) {
         .keyword-pill{display:inline-block;font-size:0.72rem;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:var(--accent);margin-right:8px}
         /* article body */
         .article-body{color:#c8cad8}
+        .toc-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:32px}
+        .toc-box summary{font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+        .toc-box summary::before{content:'§';color:var(--accent)}
+        .toc-list{margin-top:12px;display:flex;flex-direction:column;gap:4px;padding-left:4px}
+        .toc-list a{font-size:0.88rem;color:var(--muted);transition:color 0.12s;padding:3px 0;border-left:2px solid transparent;padding-left:10px}
+        .toc-list a:hover{color:var(--accent);border-left-color:var(--accent)}
         .article-body h2{font-size:1.35rem;color:var(--text);margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
         .article-body h3{font-size:1.1rem;color:var(--text);margin:24px 0 10px}
         .article-body p{margin-bottom:16px;line-height:1.8}
@@ -159,6 +211,7 @@ export default async function ArticlePage({ params }: Props) {
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />}
 
       <div className="page-wrap">
         {/* ── Main article column ── */}
@@ -178,12 +231,22 @@ export default async function ArticlePage({ params }: Props) {
               <span style={{ color: "var(--text)", maxWidth: "60ch", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{post.title}</span>
             </nav>
             <header className="article-header">
-              <div className="post-meta">{post.date}</div>
+              <div className="post-meta">{post.date}{readingTime ? <span style={{marginLeft:'12px',opacity:0.6}}>{readingTime} min read</span> : null}</div>
               <h1>{post.title}</h1>
               {post.description && <p className="article-desc">{post.description}</p>}
               {post.keyword && <span className="keyword-pill">{post.keyword}</span>}
             </header>
 
+            {tocItems.length >= 3 && (
+              <details className="toc-box" open>
+                <summary>Table of Contents</summary>
+                <nav className="toc-list">
+                  {tocItems.map((item) => (
+                    <a key={item.id} href={`#${item.id}`}>{item.text}</a>
+                  ))}
+                </nav>
+              </details>
+            )}
             <div className="article-body" dangerouslySetInnerHTML={{ __html: html }} />
 
             <footer className="article-footer">
