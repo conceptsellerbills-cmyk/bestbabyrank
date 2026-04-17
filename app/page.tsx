@@ -5,6 +5,7 @@ import NewsletterForm from '../components/NewsletterForm'
 export const metadata: Metadata = {
   title: "Best Baby Products Ranked 2025 — Expert Reviews for Parents",
   description: "Research-backed rankings of strollers, car seats, baby monitors and feeding gear. Trusted safety reviews for new parents.",
+  alternates: { canonical: "https://www.bestbabyrank.com" },
 };
 
 const STARS = (n: number) => "★".repeat(n) + "☆".repeat(5 - n);
