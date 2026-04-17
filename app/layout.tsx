@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.bestbabyrank.com"),
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
   description: "Expert guides, reviews and tips.",
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": [{ url: "/feed.xml", title: "Best Baby Rank RSS Feed" }],
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
