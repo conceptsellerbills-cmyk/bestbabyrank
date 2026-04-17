@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.description,
     keywords: post.keyword,
     openGraph: { title: post.title, description: post.description, type: "article" },
+    alternates: { canonical: `https://www.bestbabyrank.com/${slug}` },
   };
 }
 
