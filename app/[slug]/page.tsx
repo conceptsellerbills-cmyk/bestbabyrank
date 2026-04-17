@@ -43,7 +43,10 @@ export default async function ArticlePage({ params }: Props) {
   if (!post) notFound();
 
   const html = await marked(post.content);
-  const suggested = getAllPosts().filter((p) => p.slug !== slug).slice(0, 6);
+  const allOther = getAllPosts().filter((p) => p.slug !== slug);
+  const sameCat = allOther.filter((p) => post.category && p.category === post.category);
+  const others  = allOther.filter((p) => !post.category || p.category !== post.category);
+  const suggested = [...sameCat, ...others].slice(0, 6);
 
   const schema = JSON.stringify({
     "@context": "https://schema.org",
@@ -63,6 +66,15 @@ export default async function ArticlePage({ params }: Props) {
     },
     keywords: post.keyword || "",
   });
+  const breadcrumbSchema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.bestbabyrank.com" },
+      ...(post.category ? [{ "@type": "ListItem", position: 2, name: post.category.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase()), item: `https://www.bestbabyrank.com/category/${post.category}` }] : []),
+      { "@type": "ListItem", position: post.category ? 3 : 2, name: post.title, item: `https://www.bestbabyrank.com/${slug}` },
+    ],
+  });
 
   return (
     <>
@@ -78,6 +90,9 @@ export default async function ArticlePage({ params }: Props) {
         /* article column */
         .article-col{min-width:0}
         .article{max-width:100%}
+        .breadcrumb{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);margin-bottom:20px;flex-wrap:wrap}
+        .breadcrumb a{color:var(--muted);transition:color 0.15s}.breadcrumb a:hover{color:var(--accent)}
+        .breadcrumb-sep{color:var(--border)}
         .article-header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
         .post-meta{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
         .article-header h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;margin-bottom:12px;line-height:1.3}
@@ -143,11 +158,25 @@ export default async function ArticlePage({ params }: Props) {
       `}</style>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
 
       <div className="page-wrap">
         {/* ── Main article column ── */}
         <div className="article-col">
           <article className="article">
+            <nav className="breadcrumb">
+              <a href="/">Home</a>
+              <span className="breadcrumb-sep">›</span>
+              {post.category && (
+                <>
+                  <a href={`/category/${post.category}`}>
+                    {CATEGORIES.find((c) => c.href === `/category/${post.category}`)?.label?.replace(/^[^a-zA-Z]+/, "") || post.category.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                  </a>
+                  <span className="breadcrumb-sep">›</span>
+                </>
+              )}
+              <span style={{ color: "var(--text)", maxWidth: "60ch", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{post.title}</span>
+            </nav>
             <header className="article-header">
               <div className="post-meta">{post.date}</div>
               <h1>{post.title}</h1>
