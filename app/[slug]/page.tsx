@@ -139,6 +139,30 @@ export default async function ArticlePage({ params }: Props) {
         .breadcrumb{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);margin-bottom:20px;flex-wrap:wrap}
         .breadcrumb a{color:var(--muted);transition:color 0.15s}.breadcrumb a:hover{color:var(--accent)}
         .breadcrumb-sep{color:var(--border)}
+        
+        /* Reading progress bar */
+        .progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:9999;width:0%;transition:width 0.1s linear}
+        /* Share buttons */
+        .share-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:32px 0 8px}
+        .share-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+        .share-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:8px;font-size:0.8rem;font-weight:700;transition:opacity 0.15s,transform 0.15s;text-decoration:none}
+        .share-btn:hover{opacity:0.85;transform:translateY(-1px)}
+        .share-twitter{background:#000;color:#fff}
+        .share-reddit{background:#ff4500;color:#fff}
+        .share-linkedin{background:#0077b5;color:#fff}
+        .share-copy{background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer}
+        .share-copy:hover{border-color:var(--accent);color:var(--accent)}
+        /* Author / editorial box */
+        .author-box{display:flex;gap:20px;align-items:flex-start;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-top:40px}
+        .author-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2,#7c5cfc));display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+        .author-info{min-width:0}
+        .author-name{font-weight:800;font-size:0.95rem;margin-bottom:3px}
+        .author-role{font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
+        .author-bio{font-size:0.84rem;color:var(--muted);line-height:1.65}
+        /* Back to top */
+        .back-top{position:fixed;bottom:32px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;opacity:0;transform:translateY(12px);transition:opacity 0.2s,transform 0.2s;z-index:900;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+        .back-top.visible{opacity:1;transform:translateY(0)}
+        .back-top:hover{opacity:0.85}
         .article-header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
         .post-meta{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
         .article-header h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;margin-bottom:12px;line-height:1.3}
@@ -210,6 +234,22 @@ export default async function ArticlePage({ params }: Props) {
       `}</style>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
+      <div className="progress-bar" id="progress-bar" />
+      <button className="back-top" id="back-top" aria-label="Back to top">↑</button>
+      <script dangerouslySetInnerHTML={{ __html: `
+        (function(){
+          var bar = document.getElementById('progress-bar');
+          var btn = document.getElementById('back-top');
+          function update(){
+            var s = document.documentElement;
+            var pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+            if(bar) bar.style.width = Math.min(pct,100) + '%';
+            if(btn){ if(s.scrollTop > 400) btn.classList.add('visible'); else btn.classList.remove('visible'); }
+          }
+          window.addEventListener('scroll', update, {passive:true});
+          if(btn) btn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+        })();
+      `}} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />}
 
@@ -253,6 +293,15 @@ export default async function ArticlePage({ params }: Props) {
               <a href="/">← Back to all articles</a>
             </footer>
 
+            
+            <div className="author-box">
+              <div className="author-avatar">✍️</div>
+              <div className="author-info">
+                <div className="author-name">Best Baby Rank Editorial Team</div>
+                <div className="author-role">Expert Reviewers</div>
+                <p className="author-bio">Our team independently tests and reviews tools to give you honest, unbiased recommendations. We never accept payment for positive reviews — our only goal is to help you find the best tools for your needs.</p>
+              </div>
+            </div>
             <Comments slug={slug} />
           </article>
 
