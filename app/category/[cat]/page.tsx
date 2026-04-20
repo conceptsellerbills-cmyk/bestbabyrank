@@ -18,23 +18,23 @@ const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: stri
 }
 
 export async function generateStaticParams() {
-  return Object.keys(CATEGORY_MAP).map((cat) => ({ cat }))
+  return Object.keys(CATEGORY_MAP).map((slug) => ({ cat: slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { cat } = await params
-  const cat = CATEGORY_MAP[cat]
+  const slug = (await params).cat
+  const cat = CATEGORY_MAP[slug]
   if (!cat) return {}
   return {
     title: `${cat.label} 2025 — Best Baby Rank`,
     description: cat.desc,
-    alternates: { canonical: `https://www.bestbabyrank.com/category/${cat}` },
+    alternates: { canonical: `https://www.bestbabyrank.com/category/${slug}` },
   }
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { cat } = await params
-  const cat = CATEGORY_MAP[cat]
+  const slug = (await params).cat
+  const cat = CATEGORY_MAP[slug]
   if (!cat) notFound()
 
   const all = getAllPosts()
